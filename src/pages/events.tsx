@@ -5,6 +5,10 @@ type EventItem = {
   title: string;
   date: string;
   location: string;
+  description?: {
+    type: string;
+    children: { type: string; text: string }[];
+  }[];
 };
 
 export default function EventsPage() {
@@ -20,6 +24,15 @@ export default function EventsPage() {
     fetchEvents();
   }, []);
 
+  const getDescriptionText = (desc: EventItem["description"]) => {
+    if (!desc || !Array.isArray(desc)) return "";
+    const firstBlock = desc[0];
+    if (firstBlock?.children?.length > 0) {
+      return firstBlock.children.map((child) => child.text).join(" ");
+    }
+    return "";
+  };
+
   return (
     <div>
       <h1>Seznam událostí</h1>
@@ -27,11 +40,12 @@ export default function EventsPage() {
         <p>Žádné události</p>
       ) : (
         <ul>
-          {events.map((event) => (
+          {events.map((event: any) => (
             <li key={event.id}>
               <h2>{event.title || "Bez názvu"}</h2>
               <p>{event.date}</p>
               <p>{event.location}</p>
+              <p>{getDescriptionText(event.description)}</p>
             </li>
           ))}
         </ul>
