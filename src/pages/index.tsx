@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import Navbar from "../components/navbar";
 
 export default function HomePage() {
   const [events, setEvents] = useState([]);
@@ -24,6 +25,7 @@ export default function HomePage() {
 
   return (
     <div>
+      <Navbar />
       <header>
         <h1>Vítejte v CreativeHubu</h1>
         <p>Komunitní centrum pro akce, workshopy a sdílení nápadů.</p>
@@ -47,7 +49,7 @@ export default function HomePage() {
       </section>
 
       <section>
-        <h2>Aktualita</h2>
+        <h2>Aktuality</h2>
         {news.length === 0 ? (
           <p>Žádné novinky</p>
         ) : (

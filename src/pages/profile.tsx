@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import Navbar from "../components/navbar";
 
 type User = {
   id: number;
@@ -53,6 +54,7 @@ export default function ProfilePage() {
 
   return (
     <div>
+      <Navbar />
       <h1>Váš profil</h1>
       <p><strong>ID:</strong> {user.id}</p>
       <p><strong>Uživatel:</strong> {user.username}</p>

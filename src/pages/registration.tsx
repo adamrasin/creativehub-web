@@ -1,8 +1,9 @@
 import React, { useState } from "react";
+import Navbar from "../components/navbar";
 
 export default function RegistrationPage() {
   const [form, setForm] = useState({ name: "", email: "", eventId: "" });
-  const [submitted, setSubmitted] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -27,29 +28,32 @@ export default function RegistrationPage() {
     });
 
     if (res.ok) {
-      setSubmitted(true);
+      setSuccessMessage("Díky za registraci!");
+      setForm({ name: "", email: "", eventId: "" });
+
+      setTimeout(() => setSuccessMessage(""), 5000);
     }
   };
 
-  if (submitted) {
-    return <p>Díky za registraci!</p>;
-  }
-
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        Jméno:
-        <input name="name" value={form.name} onChange={handleChange} required />
-      </label>
-      <label>
-        Email:
-        <input name="email" type="email" value={form.email} onChange={handleChange} required />
-      </label>
-      <label>
-        ID události:
-        <input name="eventId" value={form.eventId} onChange={handleChange} required />
-      </label>
-      <button type="submit">Odeslat přihlášku</button>
-    </form>
+    <div>
+      <Navbar />
+      <form onSubmit={handleSubmit}>
+        <label>
+          Jméno:
+          <input name="name" value={form.name} onChange={handleChange} required />
+        </label>
+        <label>
+          Email:
+          <input name="email" type="email" value={form.email} onChange={handleChange} required />
+        </label>
+        <label>
+          ID události:
+          <input name="eventId" value={form.eventId} onChange={handleChange} required />
+        </label>
+        <button type="submit">Odeslat přihlášku</button>
+      </form>
+      {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
+    </div>
   );
 }

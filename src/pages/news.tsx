@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import Navbar from "../components/navbar";
+
 
 type NewsItem = {
   id: number;
@@ -32,6 +34,7 @@ export default function NewsPage() {
 
   return (
     <div>
+      <Navbar />
       <h1>Novinky</h1>
       {news.length === 0 ? (
         <p>Žádné novinky</p>

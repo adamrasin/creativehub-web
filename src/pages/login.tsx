@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import Navbar from "../components/navbar";
 
 export default function LoginPage() {
   useEffect(() => {
@@ -16,6 +17,7 @@ export default function LoginPage() {
 
   return (
     <div>
+      <Navbar />
       <h1>Přihlášení</h1>
       <button onClick={handleGoogleLogin}>Přihlásit se přes Google</button>
     </div>

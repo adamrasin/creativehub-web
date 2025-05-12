@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Navbar from "../components/navbar";
 
 type EventItem = {
   id: number;
@@ -35,6 +36,7 @@ export default function EventsPage() {
 
   return (
     <div>
+      <Navbar />
       <h1>Seznam událostí</h1>
       {events.length === 0 ? (
         <p>Žádné události</p>
