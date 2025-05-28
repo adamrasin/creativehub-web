@@ -1,0 +1,13 @@
+@import "tailwindcss/preflight";
+@import "tailwindcss/utilities";
+
+body {
+  background-color: #1c873b;
+  color: white;
+  font-family: sans-serif;
+}
+
+a {
+  color: #ffffff;
+  text-decoration: underline;
+}

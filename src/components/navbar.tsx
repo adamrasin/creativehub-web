@@ -2,13 +2,13 @@ import Link from "next/link";
 
 export default function Navbar() {
   return (
-    <nav style={{ padding: "1rem", borderBottom: "1px solid #ccc", marginBottom: "2rem" }}>
-      <Link href="/" style={{ marginRight: "1rem" }}>🏠 Domů</Link>
-      <Link href="/events" style={{ marginRight: "1rem" }}>🗓 Události</Link>
-      <Link href="/news" style={{ marginRight: "1rem" }}>📰 Novinky</Link>
-      <Link href="/registration" style={{ marginRight: "1rem" }}>📝 Registrace</Link>
-      <Link href="/profile" style={{ marginRight: "1rem" }}>👤 Profil</Link>
-      <Link href="/login" style={{ marginRight: "1rem" }}>🔐 Login</Link>
+    <nav className="flex flex-wrap items-center justify-center gap-4 py-4 border-b border-gray-200 bg-white shadow-sm">
+      <Link href="/" className="text-green hover:underline">🏠 Domů</Link>
+      <Link href="/events" className="text-green hover:underline">🗓 Události</Link>
+      <Link href="/news" className="text-green hover:underline">📰 Novinky</Link>
+      <Link href="/registration" className="text-green hover:underline">📝 Registrace</Link>
+      <Link href="/profile" className="text-green hover:underline">👤 Profil</Link>
+      <Link href="/login" className="text-green hover:underline">🔐 Login</Link>
     </nav>
   );
 }

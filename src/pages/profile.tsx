@@ -1,69 +1,57 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Navbar from "../components/navbar";
 
 type User = {
   id: number;
-  username: string;
   email: string;
-  provider: string;
+  username: string;
+  // můžeš přidat další fields podle toho, co Strapi posílá
 };
 
-export default function ProfilePage() {
+export default function Profile() {
   const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
   const router = useRouter();
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-
-    if (!token) {
-      setLoading(false);
-      return;
-    }
-
-    fetch("http://localhost:1337/api/users/me", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((res) => {
-        if (!res.ok) throw new Error("Unauthorized");
-        return res.json();
-      })
-      .then((data) => {
-        setUser(data);
-      })
-      .catch(() => {
-        setUser(null);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, []);
-
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    setUser(null);
+useEffect(() => {
+  const token = localStorage.getItem("token");
+  if (!token) {
     router.push("/login");
-  };
+    return;
+  }
 
-  if (loading) return <p>Načítám profil…</p>;
+  fetch("http://localhost:1337/api/users/me", {
+    headers: { Authorization: `Bearer ${token}` },
+  })
+    .then((res) => {
+      if (!res.ok) throw new Error("Neplatný token");
+      return res.json();
+    })
+    .then(setUser)
+    .catch(() => {
+      localStorage.removeItem("token");
+      router.push("/login");
+    });
+}, []);
 
-  if (!user) return <p>Nejste přihlášen. <a href="/login">Přihlásit se</a></p>;
+
+  if (!user) return <div>Načítání profilu...</div>;
 
   return (
     <div>
       <Navbar />
-      <h1>Váš profil</h1>
-      <p><strong>ID:</strong> {user.id}</p>
-      <p><strong>Uživatel:</strong> {user.username}</p>
-      <p><strong>Email:</strong> {user.email}</p>
-      <p><strong>Přes:</strong> {user.provider}</p>
-
-      <button onClick={handleLogout} style={{ marginTop: "1rem" }}>
+      <h1>Profil</h1>
+      <p>Email: {user.email}</p>
+      <p>Username: {user.username}</p>
+      <button
+        onClick={() => {
+          localStorage.removeItem("token");
+          router.push("/login");
+        }}
+      >
         Odhlásit se
       </button>
     </div>
   );
 }
+
