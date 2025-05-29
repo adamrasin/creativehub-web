@@ -36,24 +36,74 @@ export default function RegistrationPage() {
   };
 
   return (
-    <div>
+    <div className="min-h-screen bg-creativeGreen text-white">
       <Navbar />
-      <form onSubmit={handleSubmit}>
-        <label>
-          Jméno:
-          <input name="name" value={form.name} onChange={handleChange} required />
-        </label>
-        <label>
-          Email:
-          <input name="email" type="email" value={form.email} onChange={handleChange} required />
-        </label>
-        <label>
-          ID události:
-          <input name="eventId" value={form.eventId} onChange={handleChange} required />
-        </label>
-        <button type="submit">Odeslat přihlášku</button>
-      </form>
-      {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
+      <div className="flex items-center justify-center py-12 px-4">
+        <form
+          onSubmit={handleSubmit}
+          className="w-full max-w-md bg-white text-black rounded-xl shadow-lg p-8 space-y-6"
+        >
+          <h1 className="text-2xl font-bold text-center text-creativeGreen">
+            Registrace na událost
+          </h1>
+
+          <div>
+            <label htmlFor="name" className="block mb-1 font-medium">
+              Jméno
+            </label>
+            <input
+              id="name"
+              name="name"
+              value={form.name}
+              onChange={handleChange}
+              required
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-creativeGreen"
+            />
+          </div>
+
+          <div>
+            <label htmlFor="email" className="block mb-1 font-medium">
+              E-mail
+            </label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              value={form.email}
+              onChange={handleChange}
+              required
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-creativeGreen"
+            />
+          </div>
+
+          <div>
+            <label htmlFor="eventId" className="block mb-1 font-medium">
+              ID události
+            </label>
+            <input
+              id="eventId"
+              name="eventId"
+              value={form.eventId}
+              onChange={handleChange}
+              required
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-creativeGreen"
+            />
+          </div>
+
+          <button
+            type="submit"
+            className="w-full bg-creativeGreen text-white font-semibold py-2 rounded-lg hover:bg-green-700 transition-colors"
+          >
+            Odeslat přihlášku
+          </button>
+
+          {successMessage && (
+            <p className="text-center text-green-600 font-semibold">
+              {successMessage}
+            </p>
+          )}
+        </form>
+      </div>
     </div>
   );
 }
