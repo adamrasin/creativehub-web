@@ -1,57 +1,22 @@
-import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
-import Navbar from "../components/navbar";
+import { useSession, signOut } from "next-auth/react";
 
-type User = {
-  id: number;
-  email: string;
-  username: string;
-  // můžeš přidat další fields podle toho, co Strapi posílá
-};
+export default function ProfilePage() {
+  const { data: session } = useSession();
 
-export default function Profile() {
-  const [user, setUser] = useState<User | null>(null);
-  const router = useRouter();
-
-useEffect(() => {
-  const token = localStorage.getItem("token");
-  if (!token) {
-    router.push("/login");
-    return;
+  if (!session) {
+    return <p className="p-8 text-center">Načítám nebo nejsi přihlášený...</p>;
   }
 
-  fetch("http://localhost:1337/api/users/me", {
-    headers: { Authorization: `Bearer ${token}` },
-  })
-    .then((res) => {
-      if (!res.ok) throw new Error("Neplatný token");
-      return res.json();
-    })
-    .then(setUser)
-    .catch(() => {
-      localStorage.removeItem("token");
-      router.push("/login");
-    });
-}, []);
-
-
-  if (!user) return <div>Načítání profilu...</div>;
-
   return (
-    <div>
-      <Navbar />
-      <h1>Profil</h1>
-      <p>Email: {user.email}</p>
-      <p>Username: {user.username}</p>
+    <div className="min-h-screen flex flex-col items-center justify-center bg-white">
+      <h1 className="text-2xl font-bold mb-4">Profil</h1>
+      <p className="mb-4">Přihlášen jako: {session.user?.email}</p>
       <button
-        onClick={() => {
-          localStorage.removeItem("token");
-          router.push("/login");
-        }}
+        onClick={() => signOut({ callbackUrl: "/" })}
+        className="bg-red-600 text-white px-4 py-2 rounded"
       >
         Odhlásit se
       </button>
     </div>
   );
 }
-

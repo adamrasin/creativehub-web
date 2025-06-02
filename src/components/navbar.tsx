@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { useState } from "react";
+import { signIn } from "next-auth/react";
 import { Menu, X } from "lucide-react";
 
 export default function Navbar() {
@@ -42,6 +43,7 @@ export default function Navbar() {
 
 function NavLinks() {
   const linkClass = "text-black no-underline hover:text-creativeGreen transition-colors";
+
   return (
     <>
       <Link href="/" className={linkClass}>🏠 Domů</Link>
@@ -49,7 +51,13 @@ function NavLinks() {
       <Link href="/news" className={linkClass}>📰 Novinky</Link>
       <Link href="/registration" className={linkClass}>📝 Registrace</Link>
       <Link href="/profile" className={linkClass}>👤 Profil</Link>
-      <Link href="/login" className={linkClass}>🔐 Login</Link>
+
+      <button
+        onClick={() => signIn("google")}
+        className={linkClass + " bg-transparent border-none p-0 cursor-pointer"}
+      >
+        🔐 Login
+      </button>
     </>
   );
 }

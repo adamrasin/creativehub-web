@@ -1,33 +1,34 @@
-import { GoogleLogin } from "@react-oauth/google";
-import { useRouter } from "next/router";
-import axios from "axios";
-import Navbar from "../components/navbar";
+import { getSession, signIn } from "next-auth/react";
+import { GetServerSideProps } from "next";
 
 export default function LoginPage() {
-  const router = useRouter();
-
   return (
-    <div>
-      <Navbar />
-      <h1>Přihlášení</h1>
-      <GoogleLogin
-        onSuccess={async (credentialResponse) => {
-          const id_token = credentialResponse.credential;
-          if (!id_token) return;
-
-          const res = await axios.post("/api/auth/google", { id_token });
-
-          if (res.data.jwt) {
-            localStorage.setItem("token", res.data.jwt);
-            router.push("/profile");
-          } else {
-            alert("Přihlášení selhalo");
-          }
-        }}
-        onError={() => {
-          alert("Google login selhal");
-        }}
-      />
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
+      <div className="bg-white p-8 rounded shadow text-center">
+        <h1 className="text-2xl font-bold mb-4">Přihlášení</h1>
+        <button
+          onClick={() => signIn("google", { callbackUrl: "/profile" })}
+          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+        >
+          Přihlásit se přes Google
+        </button>
+      </div>
     </div>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const session = await getSession(context);
+  if (session) {
+    return {
+      redirect: {
+        destination: "/profile",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+};

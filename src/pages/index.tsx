@@ -1,8 +1,11 @@
 import React from "react";
 import Link from "next/link";
 import Navbar from "../components/navbar";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 export default function HomePage() {
+  const { data: session } = useSession();
+
   return (
     <div className="bg-creativeGreen min-h-screen text-white">
       <Navbar />
@@ -35,9 +38,23 @@ export default function HomePage() {
           <Link href="/registration" className="underline hover:text-gray-200">
             Přihlásit se na akci
           </Link>
-          <Link href="/login" className="underline hover:text-gray-200">
-            Přihlášení / Registrace
-          </Link>
+
+          {/* Dynamický login/logout podle session */}
+          {!session ? (
+            <button
+              onClick={() => signIn("google")}
+              className="underline hover:text-gray-200 text-left p-0 bg-transparent border-none cursor-pointer"
+            >
+              Přihlášení / Registrace
+            </button>
+          ) : (
+            <button
+              onClick={() => signOut()}
+              className="underline hover:text-gray-200 text-left p-0 bg-transparent border-none cursor-pointer"
+            >
+              Odhlásit se
+            </button>
+          )}
         </div>
       </section>
 
